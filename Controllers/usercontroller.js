@@ -66,28 +66,4 @@ router.post('/login', function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-// router.post('/login', function (req, res) {
-//   User.findOne({ where: { username: req.body.user.username } })
-//     .then(function loginSuccess(user) {
-//       if (user) {
-//         let token = jwt.sign(
-//           { id: user.id },
-//           process.env.JWT_SECRET,
-//           /* 'i_am_a_secret',*/
-//           {
-//             expiresIn: 60 * 60 * 24,
-//           }
-//         );
-//         res.status(200).json({
-//           user: user,
-//           message: 'User successfully logged in!',
-//           sessionToken: token,
-//         });
-//       } else {
-//         res.send('Login Failed');
-//       }
-//     })
-//     .catch((err) => res.status(500).json({ error: err }));
-// });
-
 module.exports = router;
