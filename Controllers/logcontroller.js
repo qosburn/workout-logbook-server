@@ -8,10 +8,10 @@ router.get('/practice', validateSession, function (req, res) {
 });
 
 /*******
- * log Create*
+ * Log Creation*
  * ****** */
 
-router.post('/create', validateSession, (req, res) => {
+router.post('/', validateSession, (req, res) => {
   const logEntry = {
     description: req.body.log.description,
     definition: req.body.log.definition,
@@ -24,18 +24,19 @@ router.post('/create', validateSession, (req, res) => {
 });
 
 /*******
- * Get all Entries*
+ * Get all Entries* ---
  * ****** */
-router.get('/', (req, res) => {
-  Log.findAll()
-    .then((logs) => res.status(200).json(logs))
-    .catch((err) => res.status(500).json({ error: err }));
-});
+// Not needed
+// router.get('/', (req, res) => {
+//   Log.findAll()
+//     .then((logs) => res.status(200).json(logs))
+//     .catch((err) => res.status(500).json({ error: err }));
+// });
 
 /*****
- * Get entries by user
+ * Get all entries by user
  */
-router.get('/mine', validateSession, (req, res) => {
+router.get('/', validateSession, (req, res) => {
   let userid = req.user.id;
   Log.findAll({
     where: { owner_id: userid },
@@ -45,28 +46,28 @@ router.get('/mine', validateSession, (req, res) => {
 });
 
 /*****
- * Get entries by title
+ * Get entries by id
  */
-router.get('/:description', function (req, res) {
-  let description = req.params.description;
+router.get('/:id', function (req, res) {
+  let id = req.params.id;
   Log.findAll({
-    where: { description: description },
+    where: { id: id },
   })
     .then((logs) => res.status(200).json(logs))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
 /*****
- * Edit Entry
+ * Edit Log
  */
 
-router.put('/:entryId', validateSession, function (req, res) {
+router.put('/:id', validateSession, function (req, res) {
   const updateLogEntry = {
     description: req.body.log.description,
     definition: req.body.log.definition,
     result: req.body.log.result,
   };
-  const query = { where: { id: req.params.entryId, owner_id: req.user.id } };
+  const query = { where: { id: req.params.id, owner_id: req.user.id } };
   Log.update(updateLogEntry, query)
     .then((logs) => res.status(200).json(logs))
     .catch((err) => res.status(500).json({ error: err }));

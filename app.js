@@ -10,8 +10,8 @@ sequelize.sync();
 // --- this resets the database
 //sequelize.sync({ force: true });
 
-// adding call for Middleware
-// app.use(require('./middleware/headers'));
+// needed on front end for cors issues
+app.use(require('./middleware/headers'));
 
 app.use(express.json());
 
@@ -19,7 +19,8 @@ app.use(express.json());
 app.use('/user', user);
 
 //*PROTECTED ROUTE to implement our middleware function
-app.use(require('./Middleware/validate-session'));
+/// removed because using this in the log controller
+// app.use(require('./Middleware/validate-session'));
 app.use('/log', log);
 
 app.use('/test', function (req, res) {
